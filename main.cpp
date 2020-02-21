@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <locale>
 
 using namespace std;
 
@@ -7,47 +8,41 @@ bool automata(string);
 void testAutomata(string*);
 
 int main(int argc, char** argv) {
-
-	// Cosas que deben devolver Válido
-	string testCasesTrue[] = {
-		"0aimb.1854017",
-		"1aimb.1854017",
-		"4aimb.1854017",
-		"5aimb.1854017",
-		"7aimb.1854017",
-		"8aimb.1854017",
-		"0aaaa.aaaaimb.aa.1854017",
-		"1.aibbaimb.1854017",
-		"END"
-	};
+	string str, confirmation;
+	setlocale(LC_ALL, "");
 	
-	// Cosas que deben devolver Inválido
-	string testCasesFalse[] = {
-		"1.aibbaibm.1854017",
-		"END"
-	};
 	
-	string str;
-	cout << "Nombre: Andres Isaac Montes Bartolo\tMatricula: 1854017" << endl;
-	cout << "Alfabeto = { 0, 1, 4, 5, 7, 8, a, b, c, d, e, i, l, m, n, o, r, s, t, '.' }" << endl;
-	cout << "Ingrese una cadena de caracteres:" << endl;
-	cin >> str;
 	
-	//testAutomata(testCasesTrue);
+	do {
+		system("cls");
+		cout << "Nombre: Andres Isaac Montes Bartolo\tMatricula: 1854017" << endl << endl;
+		cout << "Alfabeto = { 0, 1, 4, 5, 7, 8, a, b, c, d, e, i, l, m, n, o, r, s, t, '.' }" << endl;
+		cout << "Ingrese una cadena de caracteres. Por ejemplo, \"0aimb.1854017\":" << endl;
+		cin >> str;
+		
+		if ( automata(str) ){
+			cout << "Cadena valida" << endl;
+		} else {
+			cout << "Cadena invalida" << endl;
+		}
+		
+		do{
+			cout << "¿Desea continuar ingresando cadenas? [S/N]" << endl;
+			cin >> confirmation;
+			confirmation[0] = toupper( confirmation[0] );
+			if (confirmation != "S" && confirmation!= "N") {
+				cout << "Favor de ingresar una respuesta válida" << endl << endl;
+			}
+		} while (confirmation != "S" && confirmation!= "N");
+		
+		
+	} while ( confirmation == "S");
 	
-	//*
-	if ( automata(str) ){
-		cout << "Cadena valida" << endl;
-		fflush(stdin);
-		getchar();
-		return 0;
-	} else {
-		cout << "Cadena invalida" << endl;
-		fflush(stdin);
-		getchar();
-		return 1;
-	}
-	//*/
+	cout << "Gracias por probar este programa." << endl << endl;
+	cout << "Puede encontrar el código fuente en:" << endl << "https://github.com/Shotem/TdA-1" << endl << endl;
+	cout << "Presione cualquier tecla para continuar..." << endl;
+	fflush(stdin);
+	getchar();
 	
 }
 
@@ -80,7 +75,6 @@ bool automata(string str) {
 	States curr_state = q0;
 	
 	for (int i = 0; i < str.length(); i++) {
-		// cout << "Current State: " << curr_state << "\tCharacter: " << str[i] << endl;
 		switch(str[i]) {
 			case '0':
 				curr_state = matrix[curr_state][0];
@@ -144,10 +138,11 @@ bool automata(string str) {
 				break;
 			
 			default:
-				//cout << "ERROR: EL caracter " << str[i] << "no es parte del alfabeto" << endl;
+				cout << "ERROR: EL caracter " << str[i] << " en la posición " << i+1 << " de la cadena no es parte del alfabeto." << endl;
 				curr_state = qm;
 			 	break;
 		}
+		
 		if (curr_state == qm) {
 			break;
 		}
@@ -156,18 +151,3 @@ bool automata(string str) {
 	return (curr_state == qf);
 	
 }
-
-void testAutomata(string testCases[]){
-	int i = 0;
-	while (testCases[i] != "END") {
-		cout << testCases[i] << ": Cadena " << (automata(testCases[i])? "Valida" : "Invalida") << endl;
-		i++;
-	}
-}
-
-/*
-Test Cases:
-	0aimb.1854017
-
-
-*/
