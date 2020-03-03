@@ -28,7 +28,8 @@ int main(int argc, char** argv) {
 		cout << "Nombre usado: Andres Isaac Montes Bartolo\tMatricula usada: 1854017" << endl << endl;
 		cout << "Alfabeto = { 0, 1, 4, 5, 7, 8, a, b, c, d, e, i, l, m, n, o, r, s, t, '.' }" << endl;
 		cout << "Ingrese una cadena de caracteres. Por ejemplo, \"0aimb.1854017\":" << endl;
-		cin >> str;
+		fflush(stdin);
+		getline(cin, str);
 		
 		do{
 			cout << "¿Desea ver lo que hace el autómata? [S/N]" << endl;
@@ -161,7 +162,7 @@ bool automata(string str, string display) {
 				break;
 			
 			default:
-				cout << "ERROR: EL caracter " << str[i] << " en la posición " << i+1 << " de la cadena no es parte del alfabeto." << endl;
+				cout << "ERROR: EL caracter '" << str[i] << "' en la posición " << i+1 << " de la cadena no es parte del alfabeto." << endl;
 				curr_state = qm;
 			 	break;
 		}
